@@ -1,0 +1,634 @@
+Write-Host "Hello World!!!" -ForegroundColor Green
+
+$a = 5
+$a
+$a.GetType()
+
+$b = 11
+$b
+
+$a + $b
+$a - $b
+$a * $b
+$c = $b / $a
+$c.GetType()
+$c
+
+$d = [int32]$c
+$d
+$d.GetType()
+
+$e = [float]$c
+$e
+$e.GetType()
+
+$f = [string]$c
+$f
+$f.GetType()
+
+$g = [boolean]$c
+$g
+$g.GetType()
+
+$h = [datetime]$c
+$h
+$h.GetType()
+
+$nameArray = @("John", "Joe", "Mary")
+$nameArray[0]
+$nameArray[1]
+$nameArray[2]
+
+$array1 = @(1,2,3)
+$array2 = @(4,5,6)
+$array3 = @()
+$array3 += $array1[0] + $array2[0]
+$array3 += $array1[1] + $array2[1]
+$array3 += $array1[2] + $array2[2]
+$array3
+
+$user = @{FirstName = "John","Joe","Gary"; LastName = "Smith","Parker","Smith"; MiddleName = "J","D","N"; Age = 40,30,50 }
+$user
+$user.FirstName
+$user.LastName
+$user.MiddleName
+$user.age
+
+$hash1 = @{Name = "John","Joe","Gary";DaysWorked=10,20,25}
+$hash1
+$hash2 = @{Name = "John","Joe","Gary";SalaryPerDay=150,120,100}
+$hash2
+$JohnSalary = $hash1.DaysWorked[0] * $hash2.SalaryPerDay[0]
+$JoeSalary = $hash1.DaysWorked[1] * $hash2.SalaryPerDay[1]
+$GarySalary = $hash1.DaysWorked[2] * $hash2.SalaryPerDay[2]
+
+$hash3 = @{Name= $hash1.Name[0],$hash1.Name[1],$hash1.Name[2]; Salary= $JohnSalary, $JoeSalary, $GarySalary}
+$hash3
+$hash3 | FT
+
+Get-Date
+Get-Date | Fl
+Get-Date | Format-List Date*
+Get-Date | Format-Table -AutoSize
+Get-Date | FT -Auto
+
+if ($a -like *a*)
+{
+	Write-Host "Has character a"
+}
+else
+{
+	Write-Host "Doesn't have character a"
+}
+
+PS C:\Users> $a = Read-Host "Enter a value"
+Enter a value: 98
+PS C:\Users> $a
+98
+
+PS C:\Users> $a = Read-Host "Enter a value"
+Enter a value: 12:00 PM
+
+PS C:\Users> $a
+12:00 PM
+PS C:\Users> $a.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String                                   System.Object
+PS C:\Users> get-service -name Spooler
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Spooler            Print Spooler
+
+
+PS C:\Users> $service = get-service spooler | select status
+
+PS C:\Users> if ($service.status -eq "Running")
+>> {
+>> write-host "service is good"
+>> }else{
+>> write-host "service is stopped"}
+service is good
+
+PS C:\Users> $service = get-service fax | select status
+
+PS C:\Users> if ($service.status -eq "Running")
+>> {
+>> write-host "service is good" -foregroundcolor green   
+>> }else{
+>> write-host "service is stopped"  -ForegroundColor red}
+service is stopped
+
+PS C:\Users> $i = Read-Host "Enter i"
+>> $j = Read-Host "Enter j"
+>> if ($i -gt $j)
+>> {
+>> Write-Host "The higher number is : $i"
+>> }
+>> elseif ($i -lt $j)
+>> {
+>> Write-Host "The higher number is : $j"
+>> }
+Enter i: 2
+Enter j: 3
+The higher number is : 3
+
+PS C:\Users> Write-Host "Select Country" -ForegroundColor Yellow
+>> Write-Host "1 : India" -ForegroundColor Cyan
+>> Write-Host "2: Australia" -ForegroundColor Cyan
+>> Write-Host "3: China" -ForegroundColor Cyan
+>> $choice = Read-Host "Please select country"
+>> if($choice -eq "1")
+>> {
+>> Write-Host "India's captital is New Delhi" -ForegroundColor Green
+>> }
+>> elseif($choice -eq "2")
+>> {
+>> Write-Host "Australia's capital is Canberra" -ForegroundColor Green
+>> elseif($choice -eq "3")
+>> {
+>> Write-Host "China's capital is Beijing" -ForegroundColor Green
+>> }
+>> else
+>> {
+>> Write-Host "Wrong choice" -ForegroundColor Red
+>> }
+Select Country
+1 : India
+2: Australia
+3: China
+Please select country: 1
+India's captital is New Delhi
+
+PS C:\Users> $result = @()
+PS C:\Users> $services = Get-Content C:\Users\Public\Documents\Services.txt
+PS C:\Users> foreach ($s in $services)
+>> {
+>> $data =$null
+>> $data = Get-Service $s |Select Name, Status
+>> $result += $data
+>> }
+PS C:\Users> $result
+
+Name      Status
+----      ------
+StorSvc  Running
+VaultSVC Running
+Spooler  Running
+Schedule Running
+
+PS C:\Users>  $csv = Import-Csv C:\Users\Public\Documents\students.csv
+PS C:\Users> $result = @()
+>> foreach($c in $csv)
+>> {
+>> if([int]$c.Age -ge 4 -and [int]$c.Age -le 10)
+>> {
+>> $school = "Junior"
+>> }
+>> elseif([int]$c.Age -ge 11 -and [int]$c.Age -le 17)
+>> {
+>> $school = "Senior"
+>> }
+>> $temp = [PSCustomObject]@{
+>> Name = $c.Name
+>> School = $school
+>> }
+>> $result += $temp
+>> }
+PS C:\Users> $result
+
+Name  School
+----  ------
+John  Junior
+Joe   Senior
+Mary  Junior
+Tom   Senior
+Lily  Senior
+Emily Junior
+
+
+PS C:\Users> for ($i = 1; $i -le 10; $i++)
+>> {
+>> Write-Host "Current value: $i" -foregroundcolor green
+>> }
+Current value: 1
+Current value: 2
+Current value: 3
+Current value: 4
+Current value: 5
+Current value: 6
+Current value: 7
+Current value: 8
+Current value: 9
+Current value: 10
+
+PS C:\Users> $colors = @("Green","Cyan","Red","Magenta","Yellow","White")
+>> for (($x=''),($fgcolor = $colors | Get-Random) ;$x.length -le 30;($x=$x+'1'),($fgcolor = $colors | Get-Random)){
+>>     Write-Host $x -ForegroundColor $fgcolor
+>>     Start-Sleep -Milliseconds 20
+>> }
+
+1
+11
+111
+1111
+11111
+111111
+1111111
+11111111
+111111111
+1111111111
+11111111111
+111111111111
+1111111111111
+11111111111111
+111111111111111
+1111111111111111
+11111111111111111
+111111111111111111
+1111111111111111111
+11111111111111111111
+111111111111111111111
+1111111111111111111111
+11111111111111111111111
+111111111111111111111111
+1111111111111111111111111
+11111111111111111111111111
+111111111111111111111111111
+1111111111111111111111111111
+11111111111111111111111111111
+111111111111111111111111111111
+
+PS C:\Users> for ($counter = 1; $counter -le 100; $counter++ )
+>> {
+>>     Write-Progress -Activity "Update Progress" -Status "$counter% Complete:" -PercentComplete $counter;
+>> Start-Sleep -Milliseconds 500
+}
+
+
+PS C:\Users> $groups = @("Red","Green","Yellow","Blue")
+>> $result = @()
+>> for($i = 1 ; $i-le 20 ; $i++)
+>> {
+>> $g = Get-Random $groups
+>> $temp = [PSCustomObject]@{
+>> RollNumber = $i
+>> Group = $g
+>> }
+>> $result += $temp
+>> }
+>> $result
+
+RollNumber Group
+---------- -----
+         1 Green
+         2 Blue
+         3 Blue
+         4 Green
+         5 Red
+         6 Red
+         7 Yellow
+         8 Green
+         9 Blue
+        10 Blue
+        11 Yellow
+        12 Green
+        13 Yellow
+        14 Yellow
+        15 Green
+        16 Yellow
+        17 Yellow
+        18 Red
+        19 Red
+        20 Blue
+
+
+PS C:\Users> for ($seconds=10; $seconds -gt -1; $seconds--) {
+>>     Write-Host -NoNewLine ("`rseconds remaining: " + ("{0:d4}" -f $seconds))
+>>     Start-Sleep -Seconds 1
+>> }
+seconds remaining: 0000
+
+PS C:\Users> $i = 0
+PS C:\Users> while ($i -lt 5)
+>> {
+>> Write-Host "Current value is : " $i -foregroundcolor yellow
+>> $i++
+>> }
+Current value is :  0
+Current value is :  1
+Current value is :  2
+Current value is :  3
+Current value is :  4
+
+
+PS C:\Users> while (Get-Process Notepad -ErrorAction SilentlyContinue)
+>> {
+>> Write-Host "Notepad is running"
+>> Start-Sleep -Seconds 1}
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+
+
+PS C:\Users> do
+>> {
+>> Write-Host "Current Value is : " $i -foregroundcolor green
+>> $i++}while ($i -lt 5)
+Current Value is :  0
+Current Value is :  1
+Current Value is :  2
+Current Value is :  3
+Current Value is :  4
+PS C:\Users> do
+>> {
+>> Write-Host "Current Value is : " $i -foregroundcolor green
+>> $i++}while ($i -lt 0)
+Current Value is :  5
+PS C:\Users> $i
+6
+
+PS C:\Users> $count =0
+PS C:\Users> do       
+>> {
+>> $ch = Get-Process | ?{$_.name -like "note*"}
+>> if($ch -ne $null)
+>> {
+>> $count2 = 2
+>> Write-Host "Notepad is running"
+>> Start-Sleep -seconds 1
+>> $count++
+>> }
+>> else {
+>> $count2 =1
+>> }
+>> }while ($count2 -ne 1)
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+Notepad is running
+PS C:\Users> $count   
+6   
+
+PS C:\Users> $i = 0
+PS C:\Users> do
+>> {
+>> Write-Host "Current value is : " $i -foregroundcolor yellow
+>> $i++
+>> }until ($i -eq 3)     
+Current value is :  0
+Current value is :  1
+Current value is :  2
+
+PS C:\Users> Get-Service | where{$_.status -eq "Stopped"}
+    
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  AarSvc_6de75e6     Agent Activation Runtime_6de75e6
+Stopped  AJRouter           AllJoyn Router Service
+Stopped  ALG                Application Layer Gateway Service
+Stopped  AppIDSvc           Application Identity
+Stopped  AppReadiness       App Readiness
+
+
+PS C:\Users> Get-Service | where{$_.status -eq "Stopped" -and $_.name -like "A*"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  AarSvc_6de75e6     Agent Activation Runtime_6de75e6
+Stopped  AJRouter           AllJoyn Router Service
+Stopped  ALG                Application Layer Gateway Service
+Stopped  AppIDSvc           Application Identity
+Stopped  AppReadiness       App Readiness
+Stopped  AppXSvc            AppX Deployment Service (AppXSVC)
+Stopped  autotimesvc        Cellular Time
+Stopped  AxInstSV           ActiveX Installer (AxInstSV)
+
+PS C:\Users> Write-Host "Check Service Status" -foregroundcolor green
+>> Write-Host "1: Check status of Windows Audio Service" -foregroundcolor yellow
+>> Write-Host "2: Check status of Print Spooler Service" -foregroundcolor yellow
+>> Write-Host "3: Check status of Netlogon Service" -foregroundcolor yellow
+Check Service Status
+1: Check status of Windows Audio Service
+2: Check status of Print Spooler Service
+3: Check status of Netlogon Service
+PS C:\Users> $choice = Read-Host "Please enter your choice"
+Please enter your choice: 2
+PS C:\Users> switch ($choice)
+>> {
+>> 1
+>> {
+>> Get-Service Audiosrv
+>> }
+>> 2{
+>> Get-Service Spooler
+>> }
+>> 3{
+>> Get-Service Netlogon}}
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Spooler            Print Spooler
+
+PS C:\Users> [int]$n1 = Read-Host "Enter first number"
+Enter first number: 10
+PS C:\Users> [int]$n2 = Read-Host "Enter second number"
+PS C:\Users> Write-Host "Calculator" -ForegroundColor Green
+>> Write-Host "1: Addition" -ForegroundColor Yellow
+>> Write-Host "2: Subtraction" -ForegroundColor Yellow
+>> Write-Host "3: Division" -ForegroundColor Yellow
+>> Write-Host "4: Multiplication" -ForegroundColor Yellow
+Calculator
+1: Addition
+2: Subtraction
+3: Division
+4: Multiplication
+PS C:\Users> $ch = Read-Host "Enter your choice"
+Enter your choice: 3
+PS C:\Users> switch($ch)
+>> {
+>> 1
+>> {
+>> $s = $n1+$n2
+>> Write-Host "Sum is : "$s
+>> }
+>> 2
+>> {
+>> $s = $n1-$n2
+>> Write-Host "Difference is : "$s
+>> }
+>> 3
+>> {
+>> $s = $n1/$n2
+>> Write-Host "Quotient is : "$s
+>> }
+>> 4
+>> {
+>> $s = $n1*$n2
+>> Write-Host "Product is : "$s
+>> }
+>> } 
+Quotient is :  2
+
+PS C:\Users> function hi
+>> {
+>> Write-Host "Hello World" -foregroundcolor green
+>> Write-Host "My name is Harsha" -foregroundcolor yellow
+>> Write-Host "I like powershell" -foregroundcolor red
+>> }
+PS C:\Users> hi
+Hello World
+My name is Harsha
+I like powershell
+
+PS C:\Users> function hi1
+>> {
+>> param ([string] $name, [int] $age)
+>> Write-Host "Hello World" -foregroundcolor green
+>> Write-Host "My name is : "$name -foregroundcolor yellow
+>> Write-Host "I like powershell" -foregroundcolor red
+>> Write-Host "My age is : "$age -foregroundcolor cyan
+>> }
+PS C:\Users> hi1 -name "Joe" -age 40
+Hello World
+My name is :  Joe
+I like powershell
+My age is :  40
+
+PS C:\Users> function countrun
+>> {
+>> $start = Get-Service | ?{$_.status -eq "Running"}
+>> Write-Host "Total services running are :"$start.count
+>> }
+PS C:\Users> function countstop     
+>> {
+>> $start = Get-Service | ?{$_.status -eq "Stopped"}
+>> Write-Host "Total services stopped are :"$start.count
+>> }
+Total services running are : 118
+PS C:\Users> countstop
+Total services stopped are : 164
+
+
+PS C:\Users> function countservice
+>> {
+>> param ([string] $status)
+>> $start = Get-Service | ?{$_.status -eq $status}
+>> Write-Host "Total count of services are:"$start.count
+>> }
+PS C:\Users> countservice -status Running
+Total count of services are: 119
+PS C:\Users> countservice -status Stopped
+Total count of services are: 163
+
+
+function mainmenu
+{
+Write-Host "`t`t`tArea Calculator" -ForegroundColor Green
+Write-Host "`n`t`t`tMain Menu" -ForegroundColor Yellow
+Write-Host "`nPlease select the option to perform the respective task`n" -ForegroundColor Yellow
+Write-Host "1: Area of Square" -ForegroundColor Green
+Write-Host "2: Area of Rectangle" -ForegroundColor Green
+Write-Host "3: Area of Circle" -ForegroundColor Green
+Write-Host "4: Area of Triangle" -ForegroundColor Green
+Write-Host "5: Exit`n" -ForegroundColor Green
+$choice = Read-Host "Enter your choice"
+return $choice
+}
+function checkmenu
+{
+Write-Host "`n`nPlease select the next option" -ForegroundColor Yellow
+Write-Host "`n1: Return to Main Menu" -ForegroundColor Green
+Write-Host "2: Exit`n" -ForegroundColor Green
+$ch2 = Read-Host "Enter your choice"
+if($ch2 -eq "1")
+{
+continue
+}
+if($ch2 -eq "2")
+{
+exit
+}
+else
+{
+Write-Host "`nEnter correct option" -ForegroundColor Red
+checkmenu
+}
+}
+function square
+{
+cls
+Write-Host "`t`t`tArea of Square`n" -ForegroundColor Green
+[int]$side = Read-Host "Enter the side of the square"
+$area = $side * $side
+Write-Host "`nArea of the square : "$area -ForegroundColor Green
+checkmenu
+}
+function rectangle
+{
+cls
+Write-Host "`t`tArea of Rectangle`n" -ForegroundColor Green
+[int]$length = Read-Host "Enter length of the rectangle"
+[int]$breadth = Read-Host "Enter breadth of the rectangle"
+$area = $length * $breadth
+Write-Host "`nArea of the rectangle : "$area -ForegroundColor Green
+checkmenu
+}
+function circle
+{
+cls
+Write-Host "`t`tArea of Circle`n" -ForegroundColor Green
+[int]$radius = Read-Host "Enter the radius of the circle"
+$area = 3.14*$radius*$radius
+Write-Host "`nArea of the circle : "$area -ForegroundColor Green
+checkmenu
+}
+function triangle
+{
+cls
+Write-Host "`t`tArea of Triangle`n" -ForegroundColor Green
+[int]$height = Read-Host "Enter height of triangle"
+[int]$base = Read-Host "Enter base of triangle"
+$area = 0.5*$height*$base
+Write-Host "`nArea of Triangle : "$area -ForegroundColor Green
+checkmenu
+}
+do
+{
+cls
+$ch1 = mainmenu
+switch($ch1)
+{
+1
+{
+cls
+square
+checkmenu
+}
+2
+{
+cls
+rectangle
+checkmenu
+}
+3
+{
+cls
+circle
+checkmenu
+}
+4
+{
+cls
+triangle
+checkmenu
+}
+}
+}while($ch1 -ne "5")

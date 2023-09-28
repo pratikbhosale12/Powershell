@@ -1,0 +1,251 @@
+https://tio.run/#powershell
+
+#List all Commands
+Get-Command 
+
+#List all commands with Resource in its name
+Get-Command *Resource*
+
+#Get information about command Write
+Get-Help Write
+
+#Declare variable
+$z = 4
+$z
+
+#Array
+$a = @(1,2,3)
+$a
+
+$b = @(4,5,6)
+$b
+
+$c = @('Pra','Tik')
+$c
+
+$a[0]
+
+$d += $a[0] + $b[0]
+$d
+
+#Hash Table or Dictionary
+$user = @{FirstName = "Pratik";Age = 20;Height = 20.4}
+$user
+$user.Age
+
+$user1 = @{Name = "Pratik","Wilson","Bhosale"; Age = 20,30,40}
+$user1
+$user1.Age
+
+$hash1 = @{Name = "Amar","Akbar","Anthony"; DaysWorked = 10,20,30}
+$hash1
+
+$hash2 = @{Name = "Amar","Akbar","Anthony"; SalaryPerDay = 50,60,70}
+$hash2
+
+$AmarSalary = $hash1.DaysWorked[0] * $hash2.SalaryPerDay[0]
+$AmarSalary
+
+$hash3 = @{Name = $hash1.Name[0]; Salary = $AmarSalary}
+$hash3
+
+#Get DAte
+Get-Date
+
+#Formatting List
+Get-Date | FL 
+Or we can use
+Get-Date | Format-List
+
+#To Get additional info use * 
+Get-Date | Format-List *
+Get-Date | Format-List Date*
+
+#To Get Info in form of table
+Get-Date | FT
+Or we can use
+Get-Date | Format-Table
+#To apply autosize
+Get-Date | Format-Table -autosize 
+Or 
+Get-Date | Format-Table -auto
+
+
+#IF-Else conditions
+
+-gt = Greater Than
+-ge = Greater than equal to
+-lt = LEss than
+-le = Less than euql to
+-eq = Equal to
+-ne = Not eual to
+
+$a = 10
+$b = 15
+
+if($a -gt $b)
+{
+       Write-Host "A is Greater than B"
+}
+
+elseif($a -lt $b)
+{
+       Write-Host "A is Less than B"
+}
+
+else
+{
+       Write-Host "A is Equal to B"
+}
+
+#Using And and Or operators
+
+if($a -le 5 -and $a -gt 1)
+{
+       Write-Host "A is Less than equal to 5"
+}
+elseif($a -ge 10 -or $a -le 15)
+{
+      Write-Host "A is greater than equal to 10 and Less than equal to 15"
+}
+else
+{
+      Write-Host "A greater than 15"
+}
+
+#Read Values
+$a = Read-Host "Enter a Value"
+
+#Ex-1 Ask the user for 2 values and then compare them and then display the value which is bigger in the form as 
+“The higher number is : X”
+
+$a = Read-Host "Enter 1st Value"
+$b = Read-Host "Enter 2nd Value"
+
+if($a -gt $b)
+{
+     Write-Host "The Greater Number Is: $a"
+}
+
+elseif($b -gt $a)
+{
+     Write-Host "The Greater Number Is: $b"
+}
+
+else
+{
+    Write-Host "Both are Equal"
+}
+
+#Ex-2:Display the menu as below and ask the user to select the country. 
+Based on the choice entered, display the corresponding country’s capital.
+
+Write-Host "Select Country : " -foregroundColor Yellow
+Write-Host "
+1 : India
+2 : Australia
+3 : China" -foregroundColor Blue
+$a = Read-Host "Please Select a Country : " -foregroundColor White
+if ($a -eq 1)
+{
+	Write-Host "India's Capital is New Delhi." -foregroundColor Green
+}
+elseif ($a -eq 2)
+{
+	Write-Host "Australia's Capital is Canberra." -foregroundColor Green
+}
+elseif ($a -eq 3)
+{
+	Write-Host "China's Capital is Beijing." -foregroundColor Green
+}
+else
+{
+        Write-Host "Wrong Option."
+}
+
+#For Loop
+for ($i =1; $i -le 5; $i++)
+{
+   Write-Host "Value of i : $i"
+}
+
+#For Loop 2
+
+ for ($sec=10; $sec -gt -1; $sec--){
+>> Write-Host -NoNewLine("secs remaining: " + ("{0:d4}" -f $sec))
+>> Start-Sleep -Seconds 1
+>> }
+Output:
+secs remaining: 0010secs remaining: 0009secs remaining: 0008secs remaining: 0007secs remaining: 0006secs 
+remaining: 0005secs remaining: 0004secs remaining: 0003secs remaining: 0002secs remaining: 0001secs 
+remaining: 0000
+
+PS C:\Users\pbhosale.ext> for ($sec=10; $sec -gt -1; $sec--){
+>> Write-Host -NoNewLine("secs remaining: " + ("{0:d3}" -f $sec))
+>> Start-Sleep -Seconds 1
+>> }
+O/P:
+secs remaining: 010secs remaining: 009secs remaining: 008secs remaining: 007secs remaining: 006secs 
+remaining: 005secs remaining: 004secs remaining: 003secs remaining: 002secs remaining: 001secs remaining: 000
+
+#While Loop
+PS C:\Users\pbhosale.ext> $i = 0
+PS C:\Users\pbhosale.ext> while($i -lt 5)
+>> {
+>>     Write-Host "Current i: $i"
+>>     $i++
+>> }
+Current i: 0
+Current i: 1
+Current i: 2
+Current i: 3
+Current i: 4
+
+#Ex-2
+while (Get-Process Notepad -ErrorAction SilentlyContinue)
+>> {
+>> Write-Host "Running"
+>> }
+
+#Do-While Loop
+PS C:\Users\pbhosale.ext> $i = 0
+PS C:\Users\pbhosale.ext> do
+>> {
+>> Write-Host "Current i : $i"
+>> $i++
+>> }while($i -lt 5)
+Current i : 0
+Current i : 1
+Current i : 2
+Current i : 3
+Current i : 4
+
+#Switch Case
+ $choice = Read-Host "Enter Choice"
+Enter Choice: 1
+PS C:\Users\pbhosale.ext> switch($choice)
+>> {
+>> 1
+>> {
+>> Get-Service Audiosrv
+>> }
+>> 2
+>> {
+>> Get-Service Spooler
+>> }
+>> 3
+>> {
+>> Get-Service Netlogon}}
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Audiosrv           Windows Audio
+
+#Functions
+
+ function sample
+>> {
+>> param ([string] $Name, [int] $age)
+>> Read-Host "Name: $Name"
+>> Write-Host "Name Is: $Name"
+>> }
